@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+	<entry key="select.email.by.funcid">
+		select emailid, docnum, createtime, custnum, langflg, frmemail from WAVEDLIB.webemailf where funcid= :funcid and statusflg='' order by createtime asc
+	</entry>
+	
+	<entry key="select.user.by.emailid">
+		select emailid, firstname, lastname, passwd, hint_quest, hint_ans, statusflg from WAVEDLIB.VBS65V4 where lower(emailid) = :emailid and statusflg='A'
+	</entry>
+	
+	<entry key="update.status.by.emailid">
+		update WAVEDLIB.webemailf set STATUSFLG=:STATUSFLG , senttime=:senttime  where EMAILID=:EMAILID and  CREATETIME=:CREATETIME
+	</entry>
+	
+	<entry key="update.status.by.emailidandcustnumanddocnum">
+		update WAVEDLIB.webemailf set STATUSFLG=:STATUSFLG where EMAILID=:EMAILID and CUSTNUM=:CUSTNUM and DOCNUM=:DOCNUM and CREATETIME=:CREATETIME
+	</entry>
+	
+	<entry key="select.issue.by.issueid">
+		select iscatgory,isdetail,prvstatus from wavedlib.webisudtl where isuid=:isuid
+	</entry>
+	
+	<entry key="select.batch.by.emailstatus">
+		select * from ediwork.wbexemlh where (emailsts = :UNSENTEMAIL or emailsts = :RETRYEMAIL )
+	</entry>
+	
+	<entry key="select.batch.by.xternalsourceandemail">
+		select * from ediwork.wbexemlb where extemlsrc = :extemlsrc and extemlid = :extemlid order by extemlsrc, extemlid, seq
+	</entry>
+	
+	<entry key="update.batch.by.xternalsourcandemailid">
+		update ediwork.wbexemlh set emailsts = :emailsts, sntdattim = :sntdattim where extemlsrc = :extemlsrc and extemlid = :extemlid
+	</entry>
+ 
+	
+</properties>
