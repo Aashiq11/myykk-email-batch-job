@@ -1,0 +1,9 @@
+<html>
+<body>
+<H3>FeedBack de correo electrónico de los clientes: ${contactusform.firstName}&nbsp;${contactusform.lastName}</H3>
+<p><b>Nombre de la organización: ${contactusform.organizationName}</b></p>
+<p><b>Número de teléfono: ${contactusform.phone}</b></p>
+<p><b>Dirección de correo electrónico: ${contactusform.email}</b></p>
+<p><b>Cuerpo de contenido: ${contactusform.comments}</b></p>
+</body>
+</html>

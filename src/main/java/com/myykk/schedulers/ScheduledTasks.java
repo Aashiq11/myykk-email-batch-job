@@ -26,6 +26,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.myykk.service.AdminEmailService;
+import com.myykk.service.BatchEmailService;
 import com.myykk.service.InvoiceEmailService;
 import com.myykk.service.LoginEmailService;
 import com.myykk.service.SupportEmailService;
@@ -48,8 +49,11 @@ public class ScheduledTasks {
 	
 	@Autowired
 	SupportEmailService supportEmailService;
+	
+	@Autowired
+	BatchEmailService batchEmailService;
 
-	@Scheduled(cron = "${admin.email.job.time}")
+	//@Scheduled(cron = "${admin.email.job.time}")
 	public void sendAdminEmailJob() throws Exception {
 		log.info("Start: Admin email job started time - {}", dateFormat.format(new Date()));
 		adminEmailService.sendAdminEmailJob();
@@ -65,7 +69,7 @@ public class ScheduledTasks {
 		
 	}
 	
-	@Scheduled(cron = "${login.email.job.time}")
+	//@Scheduled(cron = "${login.email.job.time}")
 	public void sendLoginEmailJob() throws Exception {
 		log.info("Start: Login email job started time - {}", dateFormat.format(new Date()));
 		loginEmailService.sendLoginEmailJob();
@@ -84,7 +88,7 @@ public class ScheduledTasks {
 	@Scheduled(cron = "${batch.email.job.time}")
 	public void sendBatchEmailJob() throws Exception {
 		log.info("Start: Support email job started time - {}", dateFormat.format(new Date()));
-		supportEmailService.sendSupportEmailJob();
+		batchEmailService.sendBatchEmailJob();
 		log.info("End: Support email job end time - {}", dateFormat.format(new Date()));
 		
 	}

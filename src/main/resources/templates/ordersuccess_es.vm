@@ -1,0 +1,28 @@
+<html>
+<head>
+<META http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+</HEAD>
+<BODY marginheight='0' marginwidth='0' leftmargin='0' topmargin='0'>
+	<TABLE width='483' border='0' cellspacing='0' cellpadding='0'>
+		<TR>
+			<TD bgcolor='#FFFFFF'>&nbsp;&nbsp;&nbsp;</TD>
+			<TD bgcolor='#FFFFFF'><FONT
+				face='Verdana, Arial, Helvetica, sans-serif' size='-1'> <BR />
+				<STRONG>${message}</STRONG><BR />
+				
+					 <br />
+				<br />
+				<FONT face='Verdana, Arial, Helvetica, sans-serif' size='-2'>
+						This is an auto generated email. Please do not reply directly.<br />
+						If you have any questions please contact myYKK customer service at
+						866-832-6955. <BR />
+					<BR />
+				</FONT><BR />
+				<BR />
+				<BR />
+				<BR /></TD>
+			<TD bgcolor='#FFFFFF'>&nbsp;&nbsp;&nbsp;</TD>
+		</TR>
+	</table>
+</body>
+</html>

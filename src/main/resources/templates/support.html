@@ -1,0 +1,49 @@
+<html>
+<head>
+<META http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+</HEAD>
+<BODY marginheight='0' marginwidth='0' leftmargin='0' topmargin='0'>
+	<TABLE width='483' border='0' cellspacing='0' cellpadding='0'>
+		<TR>
+			<TD colspan='3'><img src='<span th:text="${imagepath}"/>'></TD>
+		</TR>
+		<TR>
+			<TD bgcolor='#FFFFFF'>&nbsp;&nbsp;&nbsp;</TD>
+			<TD bgcolor='#FFFFFF'><FONT
+				face='Verdana, Arial, Helvetica, sans-serif' size='-1'> <BR />
+				<STRONG>myYKK authentication details</STRONG>
+				<br/>
+				<BR />
+				Customer Name and Account: <span th:text="${customerDesc}"/> (<span th:text="${custnum}"/>)<BR/> 
+				<br/>
+				Issue ID:&nbsp;<p th:text="${incidentNo}"/>
+				Issue Category: &nbsp;<p th:text="${IssueCategory}"/>
+				Issue Detail: &nbsp;<p th:text="${IssueDetail}"/>
+				Issue Opened By: &nbsp;<p th:text="${firstName}"/><p th:text="${lastName}"/>
+				Email: &nbsp;<p th:text="${emailid}"/>
+				Phone Number: &nbsp;<p th:text="${phone}"/>
+				<BR />
+					<TABLE width='100%' border='0' cellspacing='0' cellpadding='0'>
+						<TR>
+							<TD valign='top'><FONT
+								face='Verdana, Arial, Helvetica, sans-serif' size='-1'>
+									Click here to login again: &nbsp;<A href="http://myykkusa.com">http://myykkusa.com
+								</A>
+							</FONT></td>
+						</tr>
+					</table> <br />
+				<br />
+				<FONT face='Verdana, Arial, Helvetica, sans-serif' size='-2'>
+						This is an auto generated email. Please do not reply directly.<br />
+						If you have any questions please contact myYKK customer service at
+						866-832-6955. <BR />
+					<BR />
+				</FONT><BR />
+				<BR />
+				<BR />
+				<BR /></TD>
+			<TD bgcolor='#FFFFFF'>&nbsp;&nbsp;&nbsp;</TD>
+		</TR>
+	</table>
+</body>
+</html>

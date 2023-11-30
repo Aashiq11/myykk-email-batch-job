@@ -1,0 +1,17 @@
+<html>
+<head>
+        <META http-equiv='Content-Type' content='text/html; charset=iso-8859-1'>
+        </HEAD>
+ <BODY marginheight='0' marginwidth='0' leftmargin='0' topmargin='0'>
+<table width='483' border='0' cellspacing='0' cellpadding='0'>
+<tr>
+	 <td colspan='3'><img src="$imagepath" width='483' height='83'><br>
+	 <H3>FeedBack Email From Customer: ${firstName}&nbsp;${lastName}</H3><br>
+	 <p><b>Organization Name : ${organizationName}</b></p><br>
+	 <p><b>Phone Number: ${phone}</b></p><br>
+	 <p><b>Email Address: ${email}</b></p><br>
+	 <p><b>Body Content: ${comments}</b></p><br></td>
+<tr>
+</table>
+</body>
+</html>

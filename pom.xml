@@ -16,7 +16,7 @@
 	<description>myykk-email-batch-job</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 	</properties>
 
 	<dependencies>
@@ -24,6 +24,10 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
+		<dependency>  
+		   <groupId>org.springframework.boot</groupId>  
+		   <artifactId>spring-boot-starter-thymeleaf</artifactId>  
+		</dependency> 
 		<dependency>
 			<groupId>org.awaitility</groupId>
 			<artifactId>awaitility</artifactId>
@@ -65,11 +69,11 @@
 		    <!--<version>2.5.6</version>-->
 		</dependency>
 		
-		<dependency>
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-velocity</artifactId>
 			<version>1.4.7.RELEASE</version>
-		</dependency>
+		</dependency>-->
 		
 		<dependency>
 			<groupId>org.apache.velocity</groupId>

@@ -36,9 +36,6 @@ public class LoginEmailService {
 	@Value("${email.banner.path}")
 	String imagepath;
 	
-	@Value("${vmtemplate.path}")
-	String vmTemplatePath;
-	
 	@Value("${email.fromaddress}")
 	String fromAddress;
 
@@ -68,12 +65,12 @@ public class LoginEmailService {
 			       
 			        if ("1".equals( emailDTO.getLangflg())) {
 			            emailBean.setEmailSubjet("Password for myYKK site ");
-			            emailBean.setHtmlTemplate(vmTemplatePath + "/login.vm");
+			            emailBean.setHtmlTemplate("login.html");
 			            salutation = "Dear";
 			        } else {
 			            emailBean
 			                    .setEmailSubjet("Contrasena para la pagina de myYKK ");
-			            emailBean.setHtmlTemplate(vmTemplatePath + "/login_es.vm");
+			            emailBean.setHtmlTemplate("login_es.html");
 			            salutation = "Estimado";
 			        }
 			        Map<String, String> data = new HashMap<String, String>();
@@ -104,7 +101,7 @@ public class LoginEmailService {
 			        emailBean.setToAddress(emailDTO.getEmailid());
 			        emailBean.setFromAddress(fromAddress);
 
-			        boolean isMailSent = emailUtility.sendEmail(emailBean);
+			        boolean isMailSent = emailUtility.sendHtmlEmail(emailBean);
 			        if (isMailSent) {                    	
 			        	notificationRepository.updateMailStatus(emailDTO.getEmailid(), "1", emailDTO.getCreatetime(), new Timestamp(System.currentTimeMillis()));
 			        }

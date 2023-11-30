@@ -31,9 +31,6 @@ public class InvoiceEmailService {
 	@Value("${email.banner.path}")
 	String imagepath;
 	
-	@Value("${vmtemplate.path}")
-	String vmTemplatePath;
-	
 	@Value("${email.fromaddress}")
 	String fromAddress;
 	

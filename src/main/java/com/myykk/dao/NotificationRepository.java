@@ -14,6 +14,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import com.myykk.model.EmailDTO;
+import com.myykk.model.IssueDTO;
 
 
 @Repository
@@ -25,16 +26,19 @@ public class NotificationRepository {
 	private final String selectEmailByFuncIdQuery;
 	private final String updateStatusByEmailIdQuery;
 	private final String updateStatusByEmailIdAndCustnumAndDocNumQuery;
+	private final String selectIssueByIssueIdQuery;
 	
 	public NotificationRepository(NamedParameterJdbcTemplate jdbcTemplate,
 							  @Value("${select.email.by.funcid}") String selectEmailByFuncIdQuery,
 							  @Value("${update.status.by.emailid}") String updateStatusByEmailIdQuery,
-							  @Value("${update.status.by.emailidandcustnumanddocnum}") String updateStatusByEmailIdAndCustnumAndDocNumQuery
+							  @Value("${update.status.by.emailidandcustnumanddocnum}") String updateStatusByEmailIdAndCustnumAndDocNumQuery,
+							  @Value("${select.issue.by.issueid}") String selectIssueByIssueIdQuery
 							) {
 		this.jdbcTemplate = jdbcTemplate;
 		this.selectEmailByFuncIdQuery = selectEmailByFuncIdQuery;
 		this.updateStatusByEmailIdQuery = updateStatusByEmailIdQuery;
 		this.updateStatusByEmailIdAndCustnumAndDocNumQuery = updateStatusByEmailIdAndCustnumAndDocNumQuery;
+		this.selectIssueByIssueIdQuery = selectIssueByIssueIdQuery;
 	}
 
 	public List<EmailDTO> getEmailListForFuncId(String funcId) {		
@@ -67,9 +71,9 @@ public class NotificationRepository {
 		
 	}
 
-	public Map<String, String> getIssueDetails(String trim) {
-		// TODO Auto-generated method stub
-		return null;
+	public IssueDTO getIssueDetails(String isuid) {
+		return jdbcTemplate.query(selectIssueByIssueIdQuery, new MapSqlParameterSource()
+				.addValue("isuid", isuid), new IssueExtractor());
 	}
 
 }

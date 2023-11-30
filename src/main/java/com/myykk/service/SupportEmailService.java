@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import com.myykk.dao.NotificationRepository;
 import com.myykk.model.EmailBean;
 import com.myykk.model.EmailDTO;
+import com.myykk.model.IssueDTO;
 import com.myykk.utility.EmailUtility;
 
 @Service
@@ -33,9 +34,6 @@ public class SupportEmailService {
 	@Value("${email.banner.path}")
 	String imagepath;
 	
-	@Value("${vmtemplate.path}")
-	String vmTemplatePath;
-	
 	@Value("${email.fromaddress}")
 	String fromAddress;
 	
@@ -53,21 +51,21 @@ public class SupportEmailService {
 				
 				if ("1".equals( emailDTO.getLangflg())) {
 		            emailBean.setEmailSubjet("Your Incident No is : " + emailDTO.getDocnum().trim());
-		            emailBean.setHtmlTemplate(vmTemplatePath + "/support.vm");
+		            emailBean.setHtmlTemplate("support.html");
 		        } else {
 		            emailBean
 		                    .setEmailSubjet("Su numero de incidente es: " + emailDTO.getDocnum().trim());
-		            emailBean.setHtmlTemplate(vmTemplatePath + "/support_es.vm");
+		            emailBean.setHtmlTemplate("support_es.html");
 		        }
 				
 				Map<String, String> data = new HashMap<String, String>();
 				
-				Map<String, String> isu = notificationRepository.getIssueDetails(emailDTO.getDocnum().trim());
+				IssueDTO issue = notificationRepository.getIssueDetails(emailDTO.getDocnum().trim());
 
 				data.put("incidentNo", emailDTO.getDocnum().trim());
-				data.put("IssueCategory", isu.get("iscatgory"));
-				data.put("IssueDetail", isu.get("isdetail"));
-				data.put("phone", isu.get("prvstatus"));
+				data.put("IssueCategory", issue.getCatgory());
+				data.put("IssueDetail", issue.getDetail());
+				data.put("phone", issue.getPrvstatus());
 				data.put("imagepath", imagepath);
 				
 				for (EmailDTO email : emailList) {

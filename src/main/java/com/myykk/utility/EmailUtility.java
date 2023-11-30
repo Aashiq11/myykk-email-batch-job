@@ -13,8 +13,6 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.util.ByteArrayDataSource;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.VelocityEngine;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Component;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import com.myykk.model.BatchEmailBean;
 import com.myykk.model.EmailBean;
@@ -37,16 +37,17 @@ public class EmailUtility {
 	@Autowired
 	private JavaMailSender mailSender;	
 	
-	private VelocityEngine velocityEngine;
-	
 	@Value("${dynamic.invoice.pdf.gen.shared.path}")
 	String dynInvoicePdfGenSharedPath;
+	
+	@Autowired
+	private TemplateEngine templateEngine;
+	
+	@Value("${email.banner.path}")
+	String imagepath;
 
-	public void setMailSender(JavaMailSender mailSender) {
+	public void setMailSender(JavaMailSender mailSender, TemplateEngine templateEngine) {
 		this.mailSender = mailSender;
-	}
-	public void setVelocityEngine(VelocityEngine velocityEngine) {
-		this.velocityEngine = velocityEngine;
 	}
 
 	public boolean sendEmail(final EmailBean emailBean,final String pdfFile) {
@@ -107,84 +108,37 @@ public class EmailUtility {
 		return isMailSent;
 	}
 
-	public boolean sendEmail(final EmailBean emailBean) {
-		boolean isMailSent = false;
-		MimeMessagePreparator preparator = new MimeMessagePreparator() {
-			public void prepare(MimeMessage mimeMessage) throws Exception {
-				// MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-				mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailBean.getToAddress()));
-				if (StringUtils.isNotBlank(emailBean.getFromAddress())) {
-					// mimeMessage.addFrom(InternetAddress.parse(emailBean.getFromAddress()));
-					mimeMessage.setFrom(new InternetAddress(emailBean.getFromAddress()));
-				}
-				mimeMessage.setSubject(emailBean.getEmailSubjet());
-				String content = getContent(emailBean);
-				mimeMessage.setContent(content, "text/html");
-			}
-		};
-		try {
-			this.mailSender.send(preparator);
-			isMailSent = true;
-		} catch (MailException ex) {
-			log.error("Error While Sending Email " + ex.getMessage());
-		}
-		log.debug("Email sent: " + isMailSent);
-		return isMailSent;
-	}
-	
-	public boolean sendEmail(final EmailBean emailBean, String templateName,Map model) {
-		
-		String text = getContent(templateName, model);
-		emailBean.setBodyText(text);
-		emailBean.setHtmlFormat(true);		
-		return sendEmail(emailBean);
-	}
-	
 	public boolean sendHtmlEmail(EmailBean emailBean) throws AddressException, MessagingException {
 		
 		boolean isMailSent = false;
 		
 		MimeMessage message = mailSender.createMimeMessage();
-
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(emailBean.getToAddress()));
-
-		if (emailBean.getFromAddress() != null && !emailBean.getFromAddress().equals("")) {
-			message.setFrom(new InternetAddress(emailBean.getFromAddress()));
-		}
-		message.setSubject(emailBean.getEmailSubjet());
-
-		String content = getContent(emailBean);
-
-		message.setContent(content, "text/html; charset=utf-8");
-
-		try {
-			mailSender.send(message);
-			isMailSent = true;
-		} catch (MailException e) {
-			log.error("Error While Sending Email " + e.getMessage());
-		}
+		MimeMessageHelper helper = new MimeMessageHelper(message, "UTF-8");
+		
+		 try {
+	            helper.setTo(new InternetAddress(emailBean.getToAddress()));
+	            helper.setSubject(emailBean.getEmailSubjet());
+	            Context context = new Context();
+	            setContent(context, emailBean.getData());
+	            context.setVariable("imagepath", imagepath);
+	            
+	            String htmlContent = templateEngine.process(emailBean.getHtmlTemplate(), context);
+	            helper.setText(htmlContent, true);
+	            mailSender.send(message);
+	            isMailSent = true;
+	        } catch (MessagingException e) {
+	        	log.error("Error While Sending Email " + e.getMessage());
+	        }
 		
 		return isMailSent;
 	}
 	
-	private String getContent(EmailBean emailBean) {
-		
-		return getContent(emailBean.getHtmlTemplate(), emailBean.getData());
-		
-	}
-	
-	private String getContent(String templateName, Map model) {
-		VelocityContext context = new VelocityContext();
+	private void setContent(Context context, Map model) {
 		for (Object obj : model.keySet()) {
-              String key = (String) obj;
-              Object value =model.get(obj);
-              context.put(key, value);
-        }
-	    
-	    StringWriter stringWriter = new StringWriter();
-	    velocityEngine.mergeTemplate(templateName, "UTF-8", context, stringWriter);
-	    
-	    return stringWriter.toString();
+            String key = (String) obj;
+            Object value =model.get(obj);
+            context.setVariable(key, value);            
+       }
 	}
 	
 	public boolean sendBatchEmail(BatchEmailBean batchEmailBean) {
